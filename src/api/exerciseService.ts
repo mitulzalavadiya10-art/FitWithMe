@@ -1,15 +1,16 @@
 import { Exercise } from './types';
+import { FitnessIcon, BodyIcon, WalkIcon, BarbellIcon, AccessibilityIcon, HeartIcon } from '../icons';
 
 // Comprehensive muscle group categories with proper mapping
 export const MUSCLE_GROUPS = [
-  { id: 'chest', name: 'Chest', icon: 'fitness-outline', color: '#FF6B6B' },
-  { id: 'back', name: 'Back', icon: 'body-outline', color: '#4ECDC4' },
-  { id: 'legs', name: 'Legs', icon: 'walk-outline', color: '#45B7D1' },
-  { id: 'biceps', name: 'Biceps', icon: 'barbell-outline', color: '#96CEB4' },
-  { id: 'triceps', name: 'Triceps', icon: 'barbell-outline', color: '#FFEAA7' },
-  { id: 'shoulders', name: 'Shoulders', icon: 'accessibility-outline', color: '#DDA0DD' },
-  { id: 'core', name: 'Core/Abs', icon: 'body-outline', color: '#98D8C8' },
-  { id: 'cardio', name: 'Cardio', icon: 'heart-outline', color: '#F7DC6F' },
+  { id: 'chest', name: 'Chest', icon: 'fitness-outline', color: '#FF6B6B', IconComponent: FitnessIcon },
+  { id: 'back', name: 'Back', icon: 'body-outline', color: '#4ECDC4', IconComponent: BodyIcon },
+  { id: 'legs', name: 'Legs', icon: 'walk-outline', color: '#45B7D1', IconComponent: WalkIcon },
+  { id: 'biceps', name: 'Biceps', icon: 'barbell-outline', color: '#96CEB4', IconComponent: BarbellIcon },
+  { id: 'triceps', name: 'Triceps', icon: 'barbell-outline', color: '#FFEAA7', IconComponent: BarbellIcon },
+  { id: 'shoulders', name: 'Shoulders', icon: 'accessibility-outline', color: '#DDA0DD', IconComponent: AccessibilityIcon },
+  { id: 'core', name: 'Core/Abs', icon: 'body-outline', color: '#98D8C8', IconComponent: BodyIcon },
+  { id: 'cardio', name: 'Cardio', icon: 'heart-outline', color: '#F7DC6F', IconComponent: HeartIcon },
 ];
 
 // Muscle mapping for proper categorization

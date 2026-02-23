@@ -6,7 +6,15 @@ import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { useNavigation } from '@react-navigation/native';
 import { getGreeting, calculateBMI } from '../../utils/helpers';
 import { fetchExercises } from '../../store/slices/exerciseSlice';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { 
+  PersonIcon, 
+  FitnessIcon, 
+  FlameIcon, 
+  TrophyIcon, 
+  BarbellIcon, 
+  SearchIcon, 
+  ChevronForwardIcon 
+} from '../../icons';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -31,24 +39,24 @@ const HomeScreen = () => {
           </View>
           <TouchableOpacity onPress={() => navigation.navigate('Profile' as never)}>
             <View style={styles.avatar}>
-              <Icon name="person" size={24} color={theme.colors.text} />
+              <PersonIcon size={24} color={theme.colors.text} />
             </View>
           </TouchableOpacity>
         </View>
 
         <View style={styles.statsContainer}>
           <View style={styles.statCard}>
-            <Icon name="fitness" size={24} color={theme.colors.primary} />
+            <FitnessIcon size={24} color={theme.colors.primary} />
             <Text style={styles.statValue}>{completedWorkouts}</Text>
             <Text style={styles.statLabel}>Workouts</Text>
           </View>
           <View style={styles.statCard}>
-            <Icon name="flame" size={24} color={theme.colors.primary} />
+            <FlameIcon size={24} color={theme.colors.primary} />
             <Text style={styles.statValue}>{bmi.toFixed(1)}</Text>
             <Text style={styles.statLabel}>BMI</Text>
           </View>
           <View style={styles.statCard}>
-            <Icon name="trophy" size={24} color={theme.colors.primary} />
+            <TrophyIcon size={24} color={theme.colors.primary} />
             <Text style={styles.statValue}>0</Text>
             <Text style={styles.statLabel}>Streak</Text>
           </View>
@@ -59,23 +67,23 @@ const HomeScreen = () => {
           <TouchableOpacity
             style={styles.actionCard}
             onPress={() => navigation.navigate('Workouts' as never)}>
-            <Icon name="barbell" size={32} color={theme.colors.primary} />
+            <BarbellIcon size={32} color={theme.colors.primary} />
             <View style={styles.actionContent}>
               <Text style={styles.actionTitle}>Start Workout</Text>
               <Text style={styles.actionDesc}>Browse exercises and start training</Text>
             </View>
-            <Icon name="chevron-forward" size={24} color={theme.colors.textTertiary} />
+            <ChevronForwardIcon size={24} color={theme.colors.textTertiary} />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.actionCard}
             onPress={() => navigation.navigate('Search' as never)}>
-            <Icon name="search" size={32} color={theme.colors.primary} />
+            <SearchIcon size={32} color={theme.colors.primary} />
             <View style={styles.actionContent}>
               <Text style={styles.actionTitle}>Search Exercises</Text>
               <Text style={styles.actionDesc}>Find specific exercises</Text>
             </View>
-            <Icon name="chevron-forward" size={24} color={theme.colors.textTertiary} />
+            <ChevronForwardIcon size={24} color={theme.colors.textTertiary} />
           </TouchableOpacity>
         </View>
       </ScrollView>

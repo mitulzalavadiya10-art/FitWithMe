@@ -4,7 +4,7 @@ import { Container } from '../../components/Container';
 import { Header } from '../../components/Header';
 import { theme } from '../../theme';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { MailIcon } from '../../icons';
 
 const HelpScreen = () => {
   const navigation = useNavigation();
@@ -28,7 +28,7 @@ const HelpScreen = () => {
         ))}
 
         <TouchableOpacity style={styles.contactCard}>
-          <Icon name="mail-outline" size={24} color={theme.colors.primary} />
+          <MailIcon size={24} color={theme.colors.primary} />
           <View style={styles.contactContent}>
             <Text style={styles.contactTitle}>Contact Support</Text>
             <Text style={styles.contactDesc}>support@fitwithme.com</Text>

@@ -8,7 +8,15 @@ import { useNavigation } from '@react-navigation/native';
 import { logout } from '../../store/slices/authSlice';
 import { clearUserProfile } from '../../store/slices/userSlice';
 import { calculateBMI, getBMICategory } from '../../utils/helpers';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { 
+  PersonIcon, 
+  SettingsIcon, 
+  NotificationIcon, 
+  LockIcon, 
+  HelpIcon, 
+  ChevronForwardIcon, 
+  LogoutIcon 
+} from '../../icons';
 
 const ProfileMainScreen = () => {
   const navigation = useNavigation();
@@ -24,10 +32,10 @@ const ProfileMainScreen = () => {
   };
 
   const menuItems = [
-    { icon: 'settings-outline', label: 'Settings', screen: 'Settings' },
-    { icon: 'notifications-outline', label: 'Notifications', screen: 'NotificationSettings' },
-    { icon: 'lock-closed-outline', label: 'Password', screen: 'PasswordSettings' },
-    { icon: 'help-circle-outline', label: 'Help & Support', screen: 'Help' },
+    { icon: 'settings-outline', label: 'Settings', screen: 'Settings', IconComponent: SettingsIcon },
+    { icon: 'notifications-outline', label: 'Notifications', screen: 'NotificationSettings', IconComponent: NotificationIcon },
+    { icon: 'lock-closed-outline', label: 'Password', screen: 'PasswordSettings', IconComponent: LockIcon },
+    { icon: 'help-circle-outline', label: 'Help & Support', screen: 'Help', IconComponent: HelpIcon },
   ];
 
   return (
@@ -36,7 +44,7 @@ const ProfileMainScreen = () => {
       <ScrollView style={styles.content}>
         <View style={styles.profileCard}>
           <View style={styles.avatar}>
-            <Icon name="person" size={48} color={theme.colors.text} />
+            <PersonIcon size={48} color={theme.colors.text} />
           </View>
           <Text style={styles.name}>{profile?.name}</Text>
           <Text style={styles.email}>{profile?.email}</Text>
@@ -59,20 +67,23 @@ const ProfileMainScreen = () => {
         </View>
 
         <View style={styles.menu}>
-          {menuItems.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.menuItem}
-              onPress={() => navigation.navigate(item.screen as never)}>
-              <Icon name={item.icon} size={24} color={theme.colors.text} />
-              <Text style={styles.menuLabel}>{item.label}</Text>
-              <Icon name="chevron-forward" size={24} color={theme.colors.textTertiary} />
-            </TouchableOpacity>
-          ))}
+          {menuItems.map((item, index) => {
+            const IconComponent = item.IconComponent;
+            return (
+              <TouchableOpacity
+                key={index}
+                style={styles.menuItem}
+                onPress={() => navigation.navigate(item.screen as never)}>
+                <IconComponent size={24} color={theme.colors.text} />
+                <Text style={styles.menuLabel}>{item.label}</Text>
+                <ChevronForwardIcon size={24} color={theme.colors.textTertiary} />
+              </TouchableOpacity>
+            );
+          })}
         </View>
 
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Icon name="log-out-outline" size={24} color={theme.colors.error} />
+          <LogoutIcon size={24} color={theme.colors.error} />
           <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </ScrollView>

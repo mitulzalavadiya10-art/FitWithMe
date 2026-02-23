@@ -1,6 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { 
+  FitnessIcon, 
+  BodyIcon, 
+  WalkIcon, 
+  BarbellIcon, 
+  AccessibilityIcon, 
+  HeartIcon, 
+  PlayIcon 
+} from '../icons';
 import { Exercise } from '../api/types';
 import { theme } from '../theme';
 import { capitalize } from '../utils/helpers';
@@ -12,47 +20,28 @@ interface ExerciseCardProps {
   isFavorite?: boolean;
 }
 
-// Exercise icons mapping - using icons instead of images for now
-const exerciseIcons: { [key: string]: string } = {
-  'push-ups': 'fitness-outline',
-  'squats': 'body-outline',
-  'plank': 'remove-outline',
-  'pull-ups': 'barbell-outline',
-  'lunges': 'walk-outline',
-  'bicep curls': 'barbell-outline',
-  'tricep dips': 'fitness-outline',
-  'shoulder press': 'barbell-outline',
-  'sit-ups': 'body-outline',
-  'jumping jacks': 'heart-outline',
-  'incline push-ups': 'fitness-outline',
-  'decline push-ups': 'fitness-outline',
-  'diamond push-ups': 'fitness-outline',
-  'chin-ups': 'barbell-outline',
-  'superman': 'body-outline',
-  'jump squats': 'body-outline',
-  'calf raises': 'walk-outline',
-  'hammer curls': 'barbell-outline',
-  'concentration curls': 'barbell-outline',
-  'overhead tricep extension': 'barbell-outline',
-  'lateral raises': 'barbell-outline',
-  'front raises': 'barbell-outline',
-  'crunches': 'body-outline',
-  'mountain climbers': 'fitness-outline',
-  'russian twists': 'body-outline',
-  'burpees': 'fitness-outline',
-  'high knees': 'walk-outline',
-};
-
-// Muscle group icons and colors
-const muscleGroupIcons: { [key: string]: { icon: string; color: string } } = {
-  'chest': { icon: 'fitness-outline', color: '#FF6B6B' },
-  'back': { icon: 'body-outline', color: '#4ECDC4' },
-  'legs': { icon: 'walk-outline', color: '#45B7D1' },
-  'biceps': { icon: 'barbell-outline', color: '#96CEB4' },
-  'triceps': { icon: 'barbell-outline', color: '#FFEAA7' },
-  'shoulders': { icon: 'accessibility-outline', color: '#DDA0DD' },
-  'core': { icon: 'body-outline', color: '#98D8C8' },
-  'full body': { icon: 'heart-outline', color: '#F7DC6F' },
+// Get icon component for muscle groups
+const getMuscleGroupIcon = (muscle: string, size: number, color: string) => {
+  const muscleType = muscle.toLowerCase();
+  switch (muscleType) {
+    case 'chest':
+      return <FitnessIcon size={size} color={color} filled={false} />;
+    case 'back':
+    case 'core':
+      return <BodyIcon size={size} color={color} filled={false} />;
+    case 'legs':
+      return <WalkIcon size={size} color={color} />;
+    case 'biceps':
+    case 'triceps':
+      return <BarbellIcon size={size} color={color} filled={false} />;
+    case 'shoulders':
+      return <AccessibilityIcon size={size} color={color} />;
+    case 'cardio':
+    case 'full body':
+      return <HeartIcon size={size} color={color} filled={false} />;
+    default:
+      return <FitnessIcon size={size} color={color} filled={false} />;
+  }
 };
 
 export const ExerciseCard: React.FC<ExerciseCardProps> = ({
@@ -97,7 +86,7 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
           />
         ) : (
           <View style={[styles.image, styles.iconContainer, { backgroundColor: exerciseColor + '20' }]}>
-            <Icon name="fitness-outline" size={64} color={exerciseColor} />
+            {getMuscleGroupIcon(exercise.muscle, 64, exerciseColor)}
           </View>
         )}
         <View style={styles.overlay}>
@@ -113,17 +102,17 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
         </Text>
         <View style={styles.tags}>
           <View style={styles.tag}>
-            <Icon name="body-outline" size={14} color={theme.colors.textSecondary} />
+            <BodyIcon size={14} color={theme.colors.textSecondary} filled={false} />
             <Text style={styles.tagText}>{capitalize(bodyPart)}</Text>
           </View>
           <View style={styles.tag}>
-            <Icon name="barbell-outline" size={14} color={theme.colors.textSecondary} />
+            <BarbellIcon size={14} color={theme.colors.textSecondary} filled={false} />
             <Text style={styles.tagText}>{capitalize(equipment)}</Text>
           </View>
         </View>
         <View style={styles.footer}>
           <View style={styles.playButton}>
-            <Icon name="play" size={16} color={theme.colors.primary} />
+            <PlayIcon size={16} color={theme.colors.primary} />
             <Text style={styles.playText}>Start Exercise</Text>
           </View>
         </View>
@@ -131,10 +120,10 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
       
       {onFavorite && (
         <TouchableOpacity style={styles.favoriteButton} onPress={onFavorite}>
-          <Icon
-            name={isFavorite ? 'heart' : 'heart-outline'}
+          <HeartIcon
             size={24}
             color={isFavorite ? theme.colors.error : theme.colors.white}
+            filled={isFavorite}
           />
         </TouchableOpacity>
       )}

@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { ArrowBackIcon } from '../icons';
 import { theme } from '../theme';
 
 interface HeaderProps {
   title: string;
   onBack?: () => void;
-  rightIcon?: string;
+  rightIcon?: React.ReactNode;
   onRightPress?: () => void;
 }
 
@@ -15,7 +15,7 @@ export const Header: React.FC<HeaderProps> = ({ title, onBack, rightIcon, onRigh
     <View style={styles.container}>
       {onBack ? (
         <TouchableOpacity onPress={onBack} style={styles.iconButton}>
-          <Icon name="arrow-back" size={24} color={theme.colors.text} />
+          <ArrowBackIcon size={24} color={theme.colors.text} />
         </TouchableOpacity>
       ) : (
         <View style={styles.iconButton} />
@@ -23,7 +23,7 @@ export const Header: React.FC<HeaderProps> = ({ title, onBack, rightIcon, onRigh
       <Text style={styles.title}>{title}</Text>
       {rightIcon && onRightPress ? (
         <TouchableOpacity onPress={onRightPress} style={styles.iconButton}>
-          <Icon name={rightIcon} size={24} color={theme.colors.text} />
+          {rightIcon}
         </TouchableOpacity>
       ) : (
         <View style={styles.iconButton} />

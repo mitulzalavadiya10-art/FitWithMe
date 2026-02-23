@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { fetchExercises, fetchExercisesByBodyPart } from '../../store/slices/exerciseSlice';
 import { addToFavorites, removeFromFavorites } from '../../store/slices/favoritesSlice';
 import { MUSCLE_GROUPS } from '../../api/exerciseService';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { ChevronForwardIcon } from '../../icons';
 
 const WorkoutListScreen = () => {
   const navigation = useNavigation();
@@ -46,21 +46,24 @@ const WorkoutListScreen = () => {
     }
   };
 
-  const renderCategoryCard = ({ item }: { item: any }) => (
-    <TouchableOpacity
-      style={[styles.categoryCard, { borderColor: item.color }]}
-      onPress={() => handleCategorySelect(item.id)}
-      activeOpacity={0.7}>
-      <View style={[styles.categoryIcon, { backgroundColor: item.color + '20' }]}>
-        <Icon name={item.icon} size={40} color={item.color} />
-      </View>
-      <View style={styles.categoryContent}>
-        <Text style={styles.categoryName}>{item.name}</Text>
-        <Text style={styles.categoryDesc}>Tap to view exercises</Text>
-      </View>
-      <Icon name="chevron-forward" size={24} color={theme.colors.textTertiary} />
-    </TouchableOpacity>
-  );
+  const renderCategoryCard = ({ item }: { item: any }) => {
+    const IconComponent = item.IconComponent;
+    return (
+      <TouchableOpacity
+        style={[styles.categoryCard, { borderColor: item.color }]}
+        onPress={() => handleCategorySelect(item.id)}
+        activeOpacity={0.7}>
+        <View style={[styles.categoryIcon, { backgroundColor: item.color + '20' }]}>
+          <IconComponent size={40} color={item.color} />
+        </View>
+        <View style={styles.categoryContent}>
+          <Text style={styles.categoryName}>{item.name}</Text>
+          <Text style={styles.categoryDesc}>Tap to view exercises</Text>
+        </View>
+        <ChevronForwardIcon size={24} color={theme.colors.textTertiary} />
+      </TouchableOpacity>
+    );
+  };
 
   const renderExerciseItem = ({ item }: { item: any }) => (
     <ExerciseCard

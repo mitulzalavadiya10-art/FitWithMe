@@ -8,7 +8,7 @@ import {
   Easing,
   Dimensions,
 } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
+import { HomeIcon, ActivityIcon, SearchIcon, HeartIcon, PersonIcon } from '../icons';
 import { theme } from '../theme';
 
 const { width } = Dimensions.get("window");
@@ -17,6 +17,7 @@ export interface InteractiveMenuItem {
   label: string;
   icon: string;
   key: string;
+  IconComponent?: React.ComponentType<{ size: number; color: string }>;
 }
 
 export interface ModernTabBarProps {
@@ -28,11 +29,11 @@ export interface ModernTabBarProps {
 }
 
 const defaultItems: InteractiveMenuItem[] = [
-  { label: "Home", icon: "home", key: "Home" },
-  { label: "Workout", icon: "activity", key: "Workouts" },
-  { label: "Search", icon: "search", key: "Search" },
-  { label: "Favorite", icon: "heart", key: "Favorites" },
-  { label: "Profile", icon: "user", key: "Profile" },
+  { label: "Home", icon: "home", key: "Home", IconComponent: HomeIcon },
+  { label: "Workout", icon: "activity", key: "Workouts", IconComponent: ActivityIcon },
+  { label: "Search", icon: "search", key: "Search", IconComponent: SearchIcon },
+  { label: "Favorite", icon: "heart", key: "Favorites", IconComponent: HeartIcon },
+  { label: "Profile", icon: "user", key: "Profile", IconComponent: PersonIcon },
 ];
 
 const ModernTabBar: React.FC<ModernTabBarProps> = ({
@@ -140,11 +141,17 @@ const ModernTabBar: React.FC<ModernTabBarProps> = ({
                 transform: [{ translateY: bounceAnims[index] }],
               }}
             >
-              <Icon
-                name={tab.icon}
-                size={22}
-                color={activeIndex === index ? finalAccentColor : "#9ca3af"}
-              />
+              {tab.IconComponent ? (
+                <tab.IconComponent
+                  size={22}
+                  color={activeIndex === index ? finalAccentColor : "#9ca3af"}
+                />
+              ) : (
+                <HomeIcon
+                  size={22}
+                  color={activeIndex === index ? finalAccentColor : "#9ca3af"}
+                />
+              )}
             </Animated.View>
 
             <Animated.Text

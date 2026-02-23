@@ -13,7 +13,7 @@ import { searchExercises, fetchExercisesByBodyPart } from '../../store/slices/ex
 import { addToFavorites, removeFromFavorites } from '../../store/slices/favoritesSlice';
 import { debounce } from '../../utils/helpers';
 import { MUSCLE_GROUPS } from '../../api/exerciseService';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { SearchIcon, ChevronForwardIcon } from '../../icons';
 
 const SearchScreen = () => {
   const navigation = useNavigation();
@@ -57,18 +57,21 @@ const SearchScreen = () => {
     }
   };
 
-  const renderCategoryCard = ({ item }: { item: any }) => (
-    <TouchableOpacity
-      style={[styles.categoryCard, { borderColor: item.color }]}
-      onPress={() => handleCategorySelect(item.id)}
-      activeOpacity={0.7}>
-      <View style={[styles.categoryIcon, { backgroundColor: item.color + '20' }]}>
-        <Icon name={item.icon} size={32} color={item.color} />
-      </View>
-      <Text style={styles.categoryName}>{item.name}</Text>
-      <Icon name="chevron-forward" size={20} color={theme.colors.textTertiary} />
-    </TouchableOpacity>
-  );
+  const renderCategoryCard = ({ item }: { item: any }) => {
+    const IconComponent = item.IconComponent;
+    return (
+      <TouchableOpacity
+        style={[styles.categoryCard, { borderColor: item.color }]}
+        onPress={() => handleCategorySelect(item.id)}
+        activeOpacity={0.7}>
+        <View style={[styles.categoryIcon, { backgroundColor: item.color + '20' }]}>
+          <IconComponent size={32} color={item.color} />
+        </View>
+        <Text style={styles.categoryName}>{item.name}</Text>
+        <ChevronForwardIcon size={20} color={theme.colors.textTertiary} />
+      </TouchableOpacity>
+    );
+  };
 
   const renderExerciseItem = ({ item }: { item: any }) => (
     <ExerciseCard
@@ -97,7 +100,7 @@ const SearchScreen = () => {
             setQuery(text);
             handleSearch(text);
           }}
-          icon={<Icon name="search" size={20} color={theme.colors.textTertiary} />}
+          icon={<SearchIcon size={20} color={theme.colors.textTertiary} />}
         />
       </View>
 

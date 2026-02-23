@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { BarbellIcon, SearchOutlineIcon } from '../icons';
 import { theme } from '../theme';
 
 interface EmptyStateProps {
@@ -9,10 +9,21 @@ interface EmptyStateProps {
   message: string;
 }
 
+const getIconComponent = (iconName: string, size: number, color: string) => {
+  switch (iconName) {
+    case 'barbell-outline':
+      return <BarbellIcon size={size} color={color} filled={false} />;
+    case 'search-outline':
+      return <SearchOutlineIcon size={size} color={color} />;
+    default:
+      return <BarbellIcon size={size} color={color} filled={false} />;
+  }
+};
+
 export const EmptyState: React.FC<EmptyStateProps> = ({ icon, title, message }) => {
   return (
     <View style={styles.container}>
-      <Icon name={icon} size={64} color={theme.colors.textTertiary} />
+      {getIconComponent(icon, 64, theme.colors.textTertiary)}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.message}>{message}</Text>
     </View>

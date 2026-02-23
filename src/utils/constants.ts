@@ -1,3 +1,5 @@
+import { TrendingDownIcon, FitnessIcon, HeartIcon, RunIcon } from '../icons';
+
 // App Constants
 export const APP_NAME = 'Fit With Me';
 
@@ -22,10 +24,10 @@ export const STORAGE_KEYS = {
 
 // Fitness Goals
 export const FITNESS_GOALS = [
-  { id: 'lose_weight', label: 'Lose Weight', icon: 'trending-down' },
-  { id: 'build_muscle', label: 'Build Muscle', icon: 'fitness' },
-  { id: 'stay_fit', label: 'Stay Fit', icon: 'heart' },
-  { id: 'improve_endurance', label: 'Improve Endurance', icon: 'run' },
+  { id: 'lose_weight', label: 'Lose Weight', icon: 'trending-down', IconComponent: TrendingDownIcon },
+  { id: 'build_muscle', label: 'Build Muscle', icon: 'fitness', IconComponent: FitnessIcon },
+  { id: 'stay_fit', label: 'Stay Fit', icon: 'heart', IconComponent: HeartIcon },
+  { id: 'improve_endurance', label: 'Improve Endurance', icon: 'run', IconComponent: RunIcon },
 ];
 
 // Activity Levels

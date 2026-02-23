@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { updateUserProfile } from '../../store/slices/userSlice';
 import { FITNESS_GOALS } from '../../utils/constants';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const GoalScreen = () => {
   const navigation = useNavigation();
@@ -31,15 +30,18 @@ const GoalScreen = () => {
         </View>
 
         <View style={styles.options}>
-          {FITNESS_GOALS.map((goal) => (
-            <TouchableOpacity
-              key={goal.id}
-              style={[styles.option, selected === goal.id && styles.optionSelected]}
-              onPress={() => setSelected(goal.id)}>
-              <Icon name={goal.icon} size={32} color={theme.colors.primary} />
-              <Text style={styles.optionText}>{goal.label}</Text>
-            </TouchableOpacity>
-          ))}
+          {FITNESS_GOALS.map((goal) => {
+            const IconComponent = goal.IconComponent;
+            return (
+              <TouchableOpacity
+                key={goal.id}
+                style={[styles.option, selected === goal.id && styles.optionSelected]}
+                onPress={() => setSelected(goal.id)}>
+                <IconComponent size={32} color={theme.colors.primary} />
+                <Text style={styles.optionText}>{goal.label}</Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
 
         <Button title="Next" onPress={handleNext} disabled={!selected} />
