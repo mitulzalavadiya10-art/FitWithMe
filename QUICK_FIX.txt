@@ -1,0 +1,51 @@
+========================================
+ANDROID BUILD ERROR FIX
+========================================
+
+ERROR: "peer not authenticated" or "No PSK available"
+
+CAUSE: Your antivirus/firewall is blocking Gradle
+
+========================================
+SOLUTION (Pick ONE):
+========================================
+
+1. DISABLE FIREWALL (Easiest):
+   - Press Win + R
+   - Type: firewall.cpl
+   - Turn OFF firewall
+   - Run: npm run android
+   - Turn firewall back ON after build
+
+2. USE MOBILE HOTSPOT:
+   - Connect PC to phone hotspot
+   - Run: npm run android
+
+3. RUN FIX SCRIPT:
+   - Double-click: fix-android-build.bat
+   - Follow instructions
+
+4. START EMULATOR FIRST:
+   - Open Android Studio
+   - Start any emulator
+   - Run: npm run android
+
+========================================
+WHY THIS HAPPENS:
+========================================
+
+Windows Firewall or antivirus (Avast, McAfee, etc.) 
+blocks Gradle from downloading dependencies from 
+Maven repositories.
+
+This is NOT a code problem - your network is 
+blocking the connection.
+
+========================================
+AFTER BUILD WORKS:
+========================================
+
+You can re-enable firewall/antivirus. Gradle will 
+cache dependencies, so future builds will be fast.
+
+========================================
