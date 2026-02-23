@@ -30,9 +30,16 @@ const ExerciseDetailScreen = () => {
       <Header title="Exercise Details" onBack={() => navigation.goBack()} />
       <ScrollView style={styles.content}>
         <View style={styles.imageContainer}>
-          {selectedExercise.gifUrl || (selectedExercise.images && selectedExercise.images.length > 0) ? (
+          {selectedExercise.gifUrl && typeof selectedExercise.gifUrl === 'number' ? (
             <Image 
-              source={{ uri: selectedExercise.gifUrl || selectedExercise.images[0] }} 
+              source={selectedExercise.gifUrl} 
+              style={styles.gif} 
+              resizeMode="cover"
+              onError={() => console.log('Exercise image failed to load')}
+            />
+          ) : selectedExercise.images && selectedExercise.images.length > 0 && typeof selectedExercise.images[0] === 'number' ? (
+            <Image 
+              source={selectedExercise.images[0]} 
               style={styles.gif} 
               resizeMode="cover"
               onError={() => console.log('Exercise image failed to load')}
