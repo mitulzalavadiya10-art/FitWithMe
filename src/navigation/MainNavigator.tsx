@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MainTabParamList } from './types';
 import { theme } from '../theme';
-import ModernTabBar, { InteractiveMenuItem } from '../components/ModernTabBar';
+import ModernBottomMenu from '../components/ModernBottomMenu';
 
 // Screens
 import HomeScreen from '../screens/main/HomeScreen';
@@ -13,28 +13,13 @@ import ProfileNavigator from './ProfileNavigator';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
-// Custom tab items matching the web component structure
-const customTabItems: InteractiveMenuItem[] = [
-  { label: 'home', icon: 'home', key: 'Home' },
-  { label: 'workouts', icon: 'workouts', key: 'Workouts' },
-  { label: 'search', icon: 'search', key: 'Search' },
-  { label: 'favorites', icon: 'favorites', key: 'Favorites' },
-  { label: 'profile', icon: 'profile', key: 'Profile' },
-];
-
 const MainNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
       }}
-      tabBar={(props) => (
-        <ModernTabBar 
-          {...props} 
-          items={customTabItems}
-          accentColor={theme.colors.primary}
-        />
-      )}
+      tabBar={(props) => <ModernBottomMenu {...props} />}
     >
       <Tab.Screen
         name="Home"

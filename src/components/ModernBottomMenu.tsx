@@ -7,52 +7,45 @@ import {
   Animated,
   Easing,
   Dimensions,
+  Image,
 } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
-import { theme } from '../theme';
 
 const { width } = Dimensions.get("window");
 
-export interface InteractiveMenuItem {
-  label: string;
-  icon: string;
-  key: string;
-}
+// Import custom icons
+const icons = {
+  home: require('../icons/home.png'),
+  workout: require('../icons/weightlifting.png'),
+  search: require('../icons/loupe.png'),
+  favorite: require('../icons/add-to-favorites.png'),
+  profile: require('../icons/user.png'),
+};
 
-export interface ModernTabBarProps {
+const TABS = [
+  { label: "Home", icon: "home" },
+  { label: "Workout", icon: "workout" },
+  { label: "Search", icon: "search" },
+  { label: "Favorite", icon: "favorite" },
+  { label: "Profile", icon: "profile" },
+];
+
+interface ModernBottomMenuProps {
   state: any;
   descriptors: any;
   navigation: any;
-  items?: InteractiveMenuItem[];
-  accentColor?: string;
 }
 
-const defaultItems: InteractiveMenuItem[] = [
-  { label: "Home", icon: "home", key: "Home" },
-  { label: "Workout", icon: "activity", key: "Workouts" },
-  { label: "Search", icon: "search", key: "Search" },
-  { label: "Favorite", icon: "heart", key: "Favorites" },
-  { label: "Profile", icon: "user", key: "Profile" },
-];
-
-const ModernTabBar: React.FC<ModernTabBarProps> = ({
+const ModernBottomMenu: React.FC<ModernBottomMenuProps> = ({
   state,
   descriptors,
   navigation,
-  items,
-  accentColor,
 }) => {
-  // Use provided items or default
-  const finalItems = items && Array.isArray(items) && items.length >= 2 && items.length <= 5 
-    ? items 
-    : defaultItems;
-
-  const finalAccentColor = accentColor || "#6366f1";
   const [activeIndex, setActiveIndex] = useState(state.index);
-  
-  const bounceAnims = useRef(finalItems.map(() => new Animated.Value(0))).current;
-  const lineAnims = useRef(finalItems.map(() => new Animated.Value(0))).current;
-  const textOpacity = useRef(finalItems.map(() => new Animated.Value(0.6))).current;
+  const bounceAnims = useRef(TABS.map(() => new Animated.Value(0))).current;
+  const lineAnims = useRef(TABS.map(() => new Animated.Value(0))).current;
+  const textOpacity = useRef(TABS.map(() => new Animated.Value(0))).current;
+  const iconOpacity = useRef(TABS.map(() => new Animated.Value(0.8))).current;
+  const iconScale = useRef(TABS.map(() => new Animated.Value(1))).current;
 
   useEffect(() => {
     setActiveIndex(state.index);
@@ -60,8 +53,9 @@ const ModernTabBar: React.FC<ModernTabBarProps> = ({
   }, [state.index]);
 
   const animateTab = (index: number) => {
-    finalItems.forEach((_, i) => {
+    TABS.forEach((_, i) => {
       if (i === index) {
+        // Active tab animations
         // Bounce animation
         Animated.sequence([
           Animated.timing(bounceAnims[i], {
@@ -84,24 +78,56 @@ const ModernTabBar: React.FC<ModernTabBarProps> = ({
           useNativeDriver: false,
         }).start();
 
-        // Text fade in
+        // Text fade in (show name for active tab)
         Animated.timing(textOpacity[i], {
           toValue: 1,
           duration: 250,
           useNativeDriver: true,
         }).start();
+
+        // Icon scale up and full opacity for active
+        Animated.parallel([
+          Animated.timing(iconOpacity[i], {
+            toValue: 1,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          Animated.spring(iconScale[i], {
+            toValue: 1.2,
+            tension: 100,
+            friction: 8,
+            useNativeDriver: true,
+          }),
+        ]).start();
       } else {
+        // Inactive tabs - hide line and text, keep icon visible with animation
         Animated.timing(lineAnims[i], {
           toValue: 0,
           duration: 200,
           useNativeDriver: false,
         }).start();
 
+        // Hide text for inactive tabs
         Animated.timing(textOpacity[i], {
-          toValue: 0.6,
+          toValue: 0,
           duration: 200,
           useNativeDriver: true,
         }).start();
+
+        // Scale down and reduce opacity for inactive icons
+        Animated.parallel([
+          Animated.timing(iconOpacity[i], {
+            toValue: 0.7,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+          Animated.spring(iconScale[i], {
+            toValue: 1,
+            tension: 100,
+            friction: 8,
+            useNativeDriver: true,
+          }),
+        ]).start();
       }
     });
   };
@@ -122,10 +148,10 @@ const ModernTabBar: React.FC<ModernTabBarProps> = ({
 
   return (
     <View style={styles.container}>
-      {finalItems.map((tab, index) => {
+      {TABS.map((tab, index) => {
         const lineWidth = lineAnims[index].interpolate({
           inputRange: [0, 1],
-          outputRange: [0, width / finalItems.length - 30],
+          outputRange: [0, width / TABS.length - 30],
         });
 
         return (
@@ -137,22 +163,32 @@ const ModernTabBar: React.FC<ModernTabBarProps> = ({
           >
             <Animated.View
               style={{
-                transform: [{ translateY: bounceAnims[index] }],
+                transform: [
+                  { translateY: bounceAnims[index] },
+                  { scale: iconScale[index] }
+                ],
+                opacity: iconOpacity[index],
               }}
             >
-              <Icon
-                name={tab.icon}
-                size={22}
-                color={activeIndex === index ? finalAccentColor : "#9ca3af"}
+              <Image
+                source={icons[tab.icon as keyof typeof icons]}
+                style={[
+                  styles.iconImage,
+                  {
+                    tintColor: activeIndex === index ? "#6366f1" : "#9ca3af",
+                  },
+                ]}
+                resizeMode="contain"
               />
             </Animated.View>
 
+            {/* Text only shows for active tab */}
             <Animated.Text
               style={[
                 styles.label,
                 {
                   opacity: textOpacity[index],
-                  color: activeIndex === index ? finalAccentColor : "#9ca3af",
+                  color: "#6366f1",
                 },
               ]}
             >
@@ -164,7 +200,7 @@ const ModernTabBar: React.FC<ModernTabBarProps> = ({
                 styles.line,
                 {
                   width: lineWidth,
-                  backgroundColor: finalAccentColor,
+                  backgroundColor: "#6366f1",
                 },
               ]}
             />
@@ -175,18 +211,16 @@ const ModernTabBar: React.FC<ModernTabBarProps> = ({
   );
 };
 
-export default ModernTabBar;
+export default ModernBottomMenu;
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     height: 70,
-    backgroundColor: theme.colors.card,
+    backgroundColor: "#111827",
     elevation: 10,
     alignItems: "center",
     justifyContent: "space-around",
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.border,
   },
   tab: {
     alignItems: "center",
@@ -196,11 +230,15 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 12,
     marginTop: 4,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   line: {
     height: 3,
     marginTop: 4,
     borderRadius: 2,
+  },
+  iconImage: {
+    width: 24,
+    height: 24,
   },
 });

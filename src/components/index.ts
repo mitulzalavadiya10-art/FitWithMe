@@ -7,3 +7,4 @@ export { ExerciseCard } from './ExerciseCard';
 export { Loading } from './Loading';
 export { EmptyState } from './EmptyState';
 export { default as ModernTabBar } from './ModernTabBar';
+export { default as ModernBottomMenu } from './ModernBottomMenu';
