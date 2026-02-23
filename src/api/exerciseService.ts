@@ -1,4 +1,4 @@
-import { Exercise, PaginationParams } from './types';
+import { Exercise } from './types';
 
 // Comprehensive muscle group categories with proper mapping
 export const MUSCLE_GROUPS = [
@@ -288,7 +288,6 @@ const ALL_EXERCISES: Exercise[] = [
     gifUrl: exerciseImages['decline_dumbbell_press'],
   },
 
-  // BACK EXERCISES
   {
     id: 'cable_crossover',
     name: 'Cable Crossover',

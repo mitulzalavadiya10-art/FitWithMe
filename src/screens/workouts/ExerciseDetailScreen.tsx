@@ -44,6 +44,13 @@ const ExerciseDetailScreen = () => {
               resizeMode="cover"
               onError={() => console.log('Exercise image failed to load')}
             />
+          ) : selectedExercise.gifUrl && typeof selectedExercise.gifUrl === 'string' ? (
+            <Image 
+              source={{ uri: selectedExercise.gifUrl }} 
+              style={styles.gif} 
+              resizeMode="cover"
+              onError={() => console.log('Exercise image failed to load')}
+            />
           ) : (
             <View style={[styles.gif, styles.placeholderGif]}>
               <Text style={styles.placeholderText}>Exercise Animation</Text>

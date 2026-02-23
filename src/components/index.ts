@@ -6,3 +6,4 @@ export { Header } from './Header';
 export { ExerciseCard } from './ExerciseCard';
 export { Loading } from './Loading';
 export { EmptyState } from './EmptyState';
+export { default as ModernTabBar } from './ModernTabBar';
